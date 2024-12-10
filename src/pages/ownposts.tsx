@@ -8,6 +8,7 @@ import CountrySelect from "@/components/CountrySelect";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import { useRouter } from "next/router";
+import ProfileModal from "@/components/ProfileModal";
 
 interface Story {
   _id: string;
@@ -107,6 +108,7 @@ const Posts = () => {
 
   return (
     <div>
+      <ProfileModal />
       <Navbar />
       <div className="grid grid-cols-4 gap-8 p-8 mt-10">
         {loading ? (
