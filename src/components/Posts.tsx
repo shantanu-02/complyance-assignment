@@ -21,6 +21,7 @@ const Posts = () => {
     title: "",
     story: "",
   });
+  const [updateStoryModal, setUpdateStoryModal] = useState<boolean>(false);
   const [editCountryModal, setEditCountryModal] = useState<boolean>(false);
   const [country, setCountry] = useState<string>("");
   const [stories, setStories] = useState<Story[]>([]);
@@ -31,6 +32,7 @@ const Posts = () => {
 
   const handleEdit = (story: Story): void => {
     setEditStory(story);
+    setUpdateStoryModal(true)
     setFormData({ title: story.title, story: story.story });
   };
 
@@ -64,6 +66,7 @@ const Posts = () => {
           )
         );
         setEditStory(null);
+        setUpdateStoryModal(false)
         setFormData({ title: "", story: "" });
         alert("Story updated successfully");
       } catch (error) {
@@ -96,6 +99,7 @@ const Posts = () => {
   }, [storyModal, country]);
 
   return (
+    <div className="flex flex-grow">
     <div className="grid grid-cols-4 gap-8 p-8 mt-10">
       {user && <AddStoryButton />}
 
@@ -119,6 +123,7 @@ const Posts = () => {
                       title="editStory"
                       onClick={() => {
                         setEditCountryModal(true);
+                        setEditStory(story)
                       }}
                       className="text-sm text-blue-600 hover:text-blue-800"
                     >
@@ -152,12 +157,12 @@ const Posts = () => {
         ))
       )}
 
-      {editStory && !editCountryModal && (
+      {updateStoryModal && (
         <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
           <div className="bg-white rounded-lg shadow-lg p-6 w-full max-w-md">
             <h2 className="text-xl font-bold mb-4 text-gray-800">
               <span className="bg-blue-700 text-transparent bg-clip-text">
-                {editStory.username}
+                {editStory?.username}
               </span>
             </h2>
             <form onSubmit={handleSubmit}>
@@ -191,7 +196,7 @@ const Posts = () => {
                 </button>
                 <button
                   type="button"
-                  onClick={() => setEditStory(null)}
+                  onClick={() => setUpdateStoryModal(false)}
                   className="bg-gray-500 text-white px-4 py-2 rounded-lg shadow hover:bg-gray-600 transition duration-150"
                 >
                   Cancel
@@ -241,7 +246,7 @@ const Posts = () => {
                 name="country"
                 value={country}
                 onChange={(e) => setCountry(e.target.value)}
-                label="Select Country"
+                label=""
               />
 
               <div className="flex justify-end space-x-4 mt-3">
@@ -263,7 +268,7 @@ const Posts = () => {
           </div>
         </div>
       )}
-    </div>
+    </div></div>
   );
 };
 

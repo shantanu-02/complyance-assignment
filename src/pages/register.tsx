@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import axios from "axios";
+import Link from "next/link";
 import { useRouter } from "next/router";
 import CountrySelect from "@/components/CountrySelect";
 
@@ -38,8 +39,10 @@ const Register: React.FC = () => {
       router.push("/login");
     } catch (error: unknown) {
       if (axios.isAxiosError(error)) {
-        setMessage(error.response?.data?.message || "Error registering user");
+        // Axios-specific error handling
+        setMessage(error.response?.data.message || "Error registering user");
       } else {
+        // Generic error handling
         setMessage("An unexpected error occurred");
       }
     }
@@ -56,60 +59,61 @@ const Register: React.FC = () => {
             Username cannot contain spaces.
           </p>
         )}
-        <form onSubmit={handleSubmit}>
-          <div className="mb-4">
-            <label
-              htmlFor="username"
-              className="block text-gray-700 font-semibold"
-            >
-              Username
-            </label>
-            <input
-              type="text"
-              id="username"
-              name="username"
-              value={formData.username}
-              onChange={handleChange}
-              onKeyDown={handleKeyDown}
-              required
-              className="w-full px-4 py-2 border border-gray-300 rounded-lg outline-none focus:ring-2 focus:ring-blue-400"
-            />
-          </div>
-
-          <div className="mb-4">
-            <label
-              htmlFor="password"
-              className="block text-gray-700 font-semibold"
-            >
-              Password
-            </label>
-            <input
-              type="password"
-              id="password"
-              name="password"
-              value={formData.password}
-              onChange={handleChange}
-              required
-              className="w-full px-4 py-2 border border-gray-300 rounded-lg outline-none focus:ring-2 focus:ring-blue-400"
-            />
-          </div>
+        <form onSubmit={handleSubmit} className="space-y-5">
+          <input
+            type="text"
+            name="username"
+            placeholder="Username"
+            value={formData.username}
+            onChange={handleChange}
+            onKeyDown={handleKeyDown}
+            required
+            className="w-full px-4 py-2 border border-gray-300 rounded-lg outline-none focus:ring-2 focus:ring-blue-400"
+          />
+          <input
+            type="password"
+            name="password"
+            placeholder="Password"
+            value={formData.password}
+            onChange={handleChange}
+            required
+            className="w-full px-4 py-2 border border-gray-300 rounded-lg outline-none focus:ring-2 focus:ring-blue-400"
+          />
 
           <CountrySelect
             name="country"
             value={formData.country}
             onChange={handleChange}
-            label="Country"
+            label=""
           />
-
+          <select
+            title="userRole"
+            name="role"
+            value={formData.role}
+            onChange={handleChange}
+            required
+            className="w-full px-4 py-2 border border-gray-300 rounded-lg outline-none focus:ring-2 focus:ring-blue-400"
+          >
+            <option value="">Select Role</option>
+            <option value="viewer">Viewer</option>
+            <option value="admin">Admin</option>
+          </select>
           <button
             type="submit"
-            className="w-full bg-blue-600 text-white px-4 py-2 rounded-lg shadow hover:bg-blue-700 transition duration-150"
+            className="w-full px-4 py-2 bg-gradient-to-r from-blue-500 to-purple-500 text-white font-semibold rounded-lg hover:from-blue-600 hover:to-purple-600 focus:outline-none focus:ring focus:ring-blue-300"
           >
             Register
           </button>
         </form>
-
-        {message && <p className="mt-4 text-center text-gray-600">{message}</p>}
+        <p className="mt-4 text-sm text-center text-gray-600">
+          Already have an account?{" "}
+          <Link href="/login" className="text-blue-500 hover:underline">
+            Login here
+          </Link>
+        </p>
+        {message && (
+          <p className="mt-4 text-center text-red-500 font-medium">{message}</p>
+        )}
       </div>
     </div>
   );

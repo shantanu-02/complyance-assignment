@@ -15,7 +15,7 @@ const CountrySelect: React.FC<CountrySelectProps> = ({
 }) => {
   return (
     <div className="mb-4">
-      <label htmlFor={name} className="block text-gray-700 font-semibold">
+      <label htmlFor={name} className="block text-gray-700 font-semibold mb-2">
         {label}
       </label>
       <select

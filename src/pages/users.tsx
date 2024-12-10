@@ -141,7 +141,7 @@ const Users: React.FC = () => {
                   onChange={(e) =>
                     setFormData({ ...formData, country: e.target.value })
                   }
-                  label="Country"
+                  label="Update country"
                 />
                 <div className="flex justify-end space-x-4">
                   <button
