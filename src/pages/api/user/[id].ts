@@ -31,7 +31,7 @@ export default async function handler(
         return res.status(404).json({ message: "User not found" });
       }
 
-      const updateResult = await Story.updateMany(
+      await Story.updateMany(
         { username },
         { $set: { country } }
       );

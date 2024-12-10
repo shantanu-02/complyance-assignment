@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-import { FaEdit, FaTrash } from "react-icons/fa";
-import { useDispatch, useSelector } from "react-redux";
+import { FaEdit } from "react-icons/fa";
+import { useSelector } from "react-redux";
 import { RootState } from "@/redux/store";
 import SkeletonScreen from "./SkeletonScreen";
 import AddStoryButton from "./AddStoryButton";
@@ -23,8 +23,6 @@ const Posts = () => {
   });
   const [editCountryModal, setEditCountryModal] = useState<boolean>(false);
   const [country, setCountry] = useState<string>("");
-
-  const dispatch = useDispatch();
   const [stories, setStories] = useState<Story[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
 

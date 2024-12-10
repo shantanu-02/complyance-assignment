@@ -1,7 +1,6 @@
 import { NextApiRequest, NextApiResponse } from "next";
 import dbConnect from "@/lib/mongodb";
 import Story from "@/models/storiesModel";
-import { error } from "console";
 
 export default async function handler (req: NextApiRequest, res:NextApiResponse){
     await dbConnect();

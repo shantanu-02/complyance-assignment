@@ -16,7 +16,6 @@ const AddStoryModal = () => {
     country: user?.country || "",
   });
   const [message, setMessage] = useState("");
-  const  [stories, setStories] = useState([])
 
   const handleChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
