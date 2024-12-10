@@ -81,11 +81,9 @@ const Posts = () => {
   };
 
   useEffect(() => {
-
-    if(!user){
+    if (!user) {
       router.push("/");
     }
-
     const fetchStories = async () => {
       try {
         const userCountry = localStorage.getItem("userCountry");
@@ -105,7 +103,7 @@ const Posts = () => {
     };
 
     fetchStories();
-  }, [storyModal, country]);
+  }, [storyModal, country, router, user]);
 
   return (
     <div>
@@ -113,7 +111,7 @@ const Posts = () => {
       <div className="grid grid-cols-4 gap-8 p-8 mt-10">
         {loading ? (
           <SkeletonScreen />
-        ) : (
+        ) : stories.length > 0 ? (
           stories.map((story, index) => (
             <div
               key={index}
@@ -165,6 +163,8 @@ const Posts = () => {
               </p>
             </div>
           ))
+        ) : (
+          <div className="h-60">No stories found...</div>
         )}
 
         {updateStoryModal && (
