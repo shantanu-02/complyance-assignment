@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import axios from "axios";
 import { useRouter } from "next/router";
-import CountrySelect from "@/components/CountrySelect"; // Import the reusable component
+import CountrySelect from "@/components/CountrySelect";
 
 const Register: React.FC = () => {
   const [formData, setFormData] = useState({
@@ -36,15 +36,21 @@ const Register: React.FC = () => {
       const response = await axios.post("/api/auth/register", formData);
       setMessage(response.data.message);
       router.push("/login");
-    } catch (error: any) {
-      setMessage(error.response?.data.message || "Error registering user");
+    } catch (error: unknown) {
+      if (axios.isAxiosError(error)) {
+        setMessage(error.response?.data?.message || "Error registering user");
+      } else {
+        setMessage("An unexpected error occurred");
+      }
     }
   };
 
   return (
     <div className="flex items-center justify-center h-screen bg-gradient-to-br from-gray-100 to-gray-300">
       <div className="w-full max-w-md bg-white p-8 rounded-lg shadow-lg">
-        <h1 className="text-3xl font-bold text-center text-gray-800 mb-6">Register</h1>
+        <h1 className="text-3xl font-bold text-center text-gray-800 mb-6">
+          Register
+        </h1>
         {spaceError && (
           <p className="mb-2 text-sm text-center text-red-600">
             Username cannot contain spaces.
@@ -52,7 +58,10 @@ const Register: React.FC = () => {
         )}
         <form onSubmit={handleSubmit}>
           <div className="mb-4">
-            <label htmlFor="username" className="block text-gray-700 font-semibold">
+            <label
+              htmlFor="username"
+              className="block text-gray-700 font-semibold"
+            >
               Username
             </label>
             <input
@@ -68,7 +77,10 @@ const Register: React.FC = () => {
           </div>
 
           <div className="mb-4">
-            <label htmlFor="password" className="block text-gray-700 font-semibold">
+            <label
+              htmlFor="password"
+              className="block text-gray-700 font-semibold"
+            >
               Password
             </label>
             <input

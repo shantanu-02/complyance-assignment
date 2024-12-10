@@ -6,9 +6,8 @@ import axios from "axios";
 import { RootState } from "@/redux/store";
 import Navbar from "@/components/Navbar";
 import ProfileModal from "@/components/ProfileModal";
-import CountrySelect from "@/components/CountrySelect"; // Import the reusable component
-
-// Your existing User interface and component logic
+import CountrySelect from "@/components/CountrySelect";
+import { User } from "@/types";
 
 const Users: React.FC = () => {
   const [users, setUsers] = useState<User[]>([]);
@@ -43,6 +42,7 @@ const Users: React.FC = () => {
     setEditUser(user);
     setFormData({ country: user.country });
   };
+
   const handleDelete = async (id: string): Promise<void> => {
     try {
       await axios.delete(`/api/user/${id}`);

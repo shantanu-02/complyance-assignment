@@ -12,6 +12,10 @@ export default async function handler(
 
   const { id } = req.query;
 
+  if (!id || Array.isArray(id)) {
+    return res.status(400).json({ message: "Invalid user ID" });
+  }
+
   if (req.method === "PUT") {
     const { country, username } = req.body;
 
@@ -31,11 +35,7 @@ export default async function handler(
         return res.status(404).json({ message: "User not found" });
       }
 
-      await Story.updateMany(
-        { username },
-        { $set: { country } }
-      );
-
+      await Story.updateMany({ username }, { $set: { country } });
 
       res
         .status(200)

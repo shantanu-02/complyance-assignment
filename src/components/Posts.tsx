@@ -118,7 +118,6 @@ const Posts = () => {
                     <button
                       title="editStory"
                       onClick={() => {
-                        setEditStory(story);
                         setEditCountryModal(true);
                       }}
                       className="text-sm text-blue-600 hover:text-blue-800"

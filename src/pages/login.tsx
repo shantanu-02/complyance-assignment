@@ -22,22 +22,34 @@ const Login: React.FC = () => {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     try {
-      const response = await axios.post("/api/auth/login", formData);
+      const response = await axios.post<{
+        message: string;
+        token: string;
+        user: { name: string; country: string };
+      }>("/api/auth/login", formData);
       setMessage(response.data.message);
       const { token, user } = response.data;
-      localStorage.setItem("userCountry", user.country)
+      localStorage.setItem("userCountry", user.country);
 
       dispatch(
         login({
-          user: { username: user.name },
+          user: {
+            username: user.name,
+            country: user.country,
+            role: "user",
+          },
           token,
         })
       );
 
       fetchAdditionalUserData(token);
       router.push("/");
-    } catch (error: any) {
-      setMessage(error.response?.data.message || "User does not exist");
+    } catch (error: unknown) {
+      if (axios.isAxiosError(error)) {
+        setMessage(error.response?.data?.message || "User does not exist");
+      } else {
+        setMessage("An unexpected error occurred");
+      }
     }
   };
 
@@ -89,11 +101,12 @@ const Login: React.FC = () => {
           </button>
         </form>
         <p className="mt-4 text-sm text-center text-gray-600">
-          Don't have an account?{" "}
+          Don&apos;t have an account?{" "}
           <Link href="/register" className="text-blue-500 hover:underline">
             Register here
           </Link>
         </p>
+
         {message && (
           <p className="mt-4 text-center text-red-500 font-medium">{message}</p>
         )}
